@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-
+import { composeWithDevTools } from 'redux-devtools-extension';
 import {
   BrowserRouter as Router,
   Route,
@@ -9,14 +9,18 @@ import {
   Link,
 } from 'react-router-dom';
 
+import rootReducer from './rootReducer';
 import MovieList from './MovieList';
 import MovieDetail from './MovieDetail';
 
 import logo from './logo.svg';
 import './App.css';
 
-const hello = () => 'hello';
-const store = createStore(hello);
+const store = createStore(
+  rootReducer,
+  {},
+  composeWithDevTools(),
+);
 
 const App = () => (
   <Provider store={store}>
