@@ -25,6 +25,7 @@ module.exports = {
     "react/jsx-filename-extension": 0,
     "function-paren-newline": 0,
     "react/no-did-mount-set-state": 0,
-    "jsx-a11y/anchor-is-valid": 0
+    "jsx-a11y/anchor-is-valid": 0,
+    "no-console": 0
   }
 };

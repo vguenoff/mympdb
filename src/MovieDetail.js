@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Overdrive from 'react-overdrive';
 
@@ -8,6 +9,10 @@ const POSTER_PATH = 'http://image.tmdb.org/t/p/w154';
 const BACKDROP_PATH = 'http://image.tmdb.org/t/p/w1280';
 
 class MovieDetail extends Component {
+  static propTypes = {
+    match: PropTypes.objectOf(PropTypes.any).isRequired,
+  }
+
   state = {
     movie: {},
   }
@@ -17,7 +22,6 @@ class MovieDetail extends Component {
       // hitting an API and grab some information
       const res = await fetch(`https://api.themoviedb.org/3/movie/${this.props.match.params.id}?api_key=65fdea35c25da918fb24ceb076bfaae9&language=en-US`);
       const movie = await res.json();
-
       this.setState({ movie });
     } catch (e) {
       console.log(e);
