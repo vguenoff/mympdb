@@ -9,10 +9,6 @@ const POSTER_PATH = 'http://image.tmdb.org/t/p/w154';
 const BACKDROP_PATH = 'http://image.tmdb.org/t/p/w1280';
 
 class MovieDetail extends Component {
-  static propTypes = {
-    match: PropTypes.objectOf(PropTypes.any).isRequired,
-  }
-
   state = {
     movie: {},
   }
@@ -48,7 +44,9 @@ class MovieDetail extends Component {
   }
 }
 
-export default MovieDetail;
+MovieDetail.propTypes = {
+  match: PropTypes.objectOf(PropTypes.any).isRequired,
+};
 
 const MovieWrapper = styled.div`
   position: relative;
@@ -74,3 +72,5 @@ const MovieInfo = styled.div`
     top: -5rem;
   }
 `;
+
+export default MovieDetail;

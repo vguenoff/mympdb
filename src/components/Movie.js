@@ -21,8 +21,8 @@ Movie.propTypes = {
   }).isRequired,
 };
 
-export default Movie;
-
 export const Poster = styled.img`
   box-shadow: 0 0 35px black;
 `;
+
+export default Movie;
