@@ -4,6 +4,6 @@ export const actions = {
   updateMessage: 'UPDATE_MESSAGE',
 };
 
-export const toggleMessage = () => dispatch => dispatch({ type: actions.toggleMessage });
+export const toggleMessage = () => ({ type: actions.toggleMessage });
 
-export const updateMessage = payload => dispatch => dispatch({ type: actions.updateMessage, payload });
+export const updateMessage = payload => ({ type: actions.updateMessage, payload });

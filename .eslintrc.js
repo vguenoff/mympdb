@@ -29,9 +29,6 @@ module.exports = {
     "no-console": 0,
     "react/no-typos": 0,
     "react/prefer-stateless-function": 1,
-    "max-len": [
-      "error",
-      { "code": 120 }
-    ]
+    "linebreak-style": ["error", "windows"]
   }
 };

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { bool, number, string, func } from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -57,7 +58,7 @@ export default connect(({ message }) => ({
   messageVisibility: message.messageVisibility,
   toggled: message.toggled,
   customMessage: message.customMessage,
-}), {
+}), dispatch => bindActionCreators({
   onToggleMessage: toggleMessage,
   onUpdateMessage: updateMessage,
-})(Toggle);
+}, dispatch))(Toggle);
