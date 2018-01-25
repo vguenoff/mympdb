@@ -1,28 +1,50 @@
-import React from 'react';
-import { bool, string, func } from 'prop-types';
+import React, { Component } from 'react';
+import { bool, number, string, func } from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { toggleMessage } from '../redux/actions';
+import { toggleMessage, updateMessage } from '../redux/actions';
 
-const Toggle = ({
-  messageVisibility,
-  toggled,
-  onToggleMessage,
-}) => (
-  <ToggleContainer>
-    <button onClick={onToggleMessage}>
-      Toggle me
-    </button>
-    {messageVisibility &&
-      <p>You will be seeing this if the redux action is dispatched / toggled. {toggled}</p>}
-  </ToggleContainer>
-);
+class Toggle extends Component {
+  state = {
+    inputValue: '',
+  }
+
+  render() {
+    const {
+      messageVisibility,
+      toggled,
+      onToggleMessage,
+      onUpdateMessage,
+    } = this.props;
+
+    return (
+      <ToggleContainer>
+        <input
+          type="text"
+          value={this.state.inputValue}
+          onChange={e => this.setState({ inputValue: e.target.value })}
+        />
+        <button onClick={onToggleMessage}>
+          Toggle me
+        </button>
+        <button onClick={() => onUpdateMessage(this.state.inputValue)}>
+          Update the message
+        </button>
+        {messageVisibility &&
+          // message content toggled N times
+          <p>{this.props.customMessage} {toggled}</p>}
+      </ToggleContainer>
+    );
+  }
+}
 
 Toggle.propTypes = {
   messageVisibility: bool.isRequired,
-  toggled: string.isRequired,
+  toggled: number.isRequired,
+  customMessage: string.isRequired,
   onToggleMessage: func.isRequired,
+  onUpdateMessage: func.isRequired,
 };
 
 const ToggleContainer = styled.div`
@@ -34,7 +56,8 @@ const ToggleContainer = styled.div`
 export default connect(({ message }) => ({
   messageVisibility: message.messageVisibility,
   toggled: message.toggled,
+  customMessage: message.customMessage,
 }), {
   onToggleMessage: toggleMessage,
-},
-)(Toggle);
+  onUpdateMessage: updateMessage,
+})(Toggle);

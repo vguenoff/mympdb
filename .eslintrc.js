@@ -27,6 +27,11 @@ module.exports = {
     "react/no-did-mount-set-state": 0,
     "jsx-a11y/anchor-is-valid": 0,
     "no-console": 0,
-    "react/no-typos": 0
+    "react/no-typos": 0,
+    "react/prefer-stateless-function": 1,
+    "max-len": [
+      "error",
+      { "code": 120 }
+    ]
   }
 };

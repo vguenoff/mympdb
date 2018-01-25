@@ -4,11 +4,11 @@ const message = (
   state = {
     messageVisibility: true,
     toggled: 0,
-    status: 'other stuff',
+    customMessage: 'Enter your custom message here.',
   },
   action,
 ) => {
-  const { type } = action;
+  const { type, payload } = action;
 
   switch (type) {
     case actions.toggleMessage: {
@@ -20,6 +20,12 @@ const message = (
         toggled,
       };
     }
+
+    case actions.updateMessage:
+      return {
+        ...state,
+        customMessage: payload,
+      };
     default:
       return state;
   }
