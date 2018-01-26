@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { objectOf, any, func, bool } from 'prop-types';
 import styled from 'styled-components';
 import Overdrive from 'react-overdrive';
+
+import { getMovieDetail, resetMovie } from './actions';
 
 import { Poster } from './Movie';
 
@@ -9,34 +13,29 @@ const POSTER_PATH = 'http://image.tmdb.org/t/p/w154';
 const BACKDROP_PATH = 'http://image.tmdb.org/t/p/w1280';
 
 class MovieDetail extends Component {
-  state = {
-    movie: {},
-  }
-
-  async componentDidMount() {
-    try {
-      // hitting an API and grab some information
-      const res = await fetch(`https://api.themoviedb.org/3/movie/${this.props.match.params.id}?api_key=65fdea35c25da918fb24ceb076bfaae9&language=en-US`);
-      const movie = await res.json();
-      this.setState({ movie });
-    } catch (e) {
-      console.log(e);
+  componentDidMount() {
+    if (!this.props.movieDetailLoaded) {
+      this.props.getMovieDetail(this.props.match.params.id);
     }
   }
 
+  componentWillUnmount() {
+    this.props.resetMovie();
+  }
+
   render() {
-    const { movie } = this.state;
+    const { movieDetail } = this.props;
 
     return (
-      <MovieWrapper backdrop={`${BACKDROP_PATH}${movie.backdrop_path}`}>
+      <MovieWrapper backdrop={`${BACKDROP_PATH}${movieDetail.backdrop_path}`}>
         <MovieInfo>
-          <Overdrive id={`${movie.id}`}>
-            <Poster src={`${POSTER_PATH}${movie.poster_path}`} alt={movie.title} />
+          <Overdrive id={`${movieDetail.id}`}>
+            <Poster src={`${POSTER_PATH}${movieDetail.poster_path}`} alt={movieDetail.title} />
           </Overdrive>
           <div>
-            <h1>{movie.title}</h1>
-            <h3>{movie.release_date}</h3>
-            <p>{movie.overview}</p>
+            <h1>{movieDetail.title}</h1>
+            <h3>{movieDetail.release_date}</h3>
+            <p>{movieDetail.overview}</p>
           </div>
         </MovieInfo>
       </MovieWrapper>
@@ -45,7 +44,11 @@ class MovieDetail extends Component {
 }
 
 MovieDetail.propTypes = {
-  match: PropTypes.objectOf(PropTypes.any).isRequired,
+  match: objectOf(any).isRequired,
+  movieDetail: objectOf(any).isRequired,
+  getMovieDetail: func.isRequired,
+  resetMovie: func.isRequired,
+  movieDetailLoaded: bool.isRequired,
 };
 
 const MovieWrapper = styled.div`
@@ -73,4 +76,10 @@ const MovieInfo = styled.div`
   }
 `;
 
-export default MovieDetail;
+export default connect(({ movies }) => ({
+  movieDetail: movies.movieDetail,
+  movieDetailLoaded: movies.movieDetailLoaded,
+}), dispatch => bindActionCreators({
+  getMovieDetail,
+  resetMovie,
+}, dispatch))(MovieDetail);

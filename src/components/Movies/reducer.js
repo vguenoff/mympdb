@@ -2,8 +2,11 @@ import { actions } from './actions';
 
 const movies = (
   state = {
-    movies: [],
+    movieList: [],
+    movieListLoaded: false,
+    movieListLoadedAt: null,
     movieDetail: {},
+    movieDetailLoaded: false,
   },
   action,
 ) => {
@@ -13,7 +16,23 @@ const movies = (
     case actions.getMovies: {
       return {
         ...state,
-        movies: payload,
+        movieList: payload,
+        movieListLoaded: true,
+        movieListLoadedAt: new Date(),
+      };
+    }
+    case actions.getMovieDetail: {
+      return {
+        ...state,
+        movieDetail: payload,
+        movieDetailLoaded: true,
+      };
+    }
+    case actions.resetMovie: {
+      return {
+        ...state,
+        movieDetail: {},
+        movieDetailLoaded: false,
       };
     }
     default:

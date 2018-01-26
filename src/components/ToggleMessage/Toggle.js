@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
-import { bool, number, string, func } from 'prop-types';
 import { connect } from 'react-redux';
+import { bool, number, string, func } from 'prop-types';
 import styled from 'styled-components';
 
 import { toggleMessage, updateMessage } from './actions';
@@ -12,28 +12,26 @@ class Toggle extends Component {
   }
 
   render() {
+    const { inputValue } = this.state;
     const {
       messageVisibility,
       toggled,
-      onToggleMessage,
-      onUpdateMessage,
     } = this.props;
 
     return (
       <ToggleContainer>
         <input
           type="text"
-          value={this.state.inputValue}
+          value={inputValue}
           onChange={e => this.setState({ inputValue: e.target.value })}
         />
-        <button onClick={onToggleMessage}>
+        <button onClick={this.props.toggleMessage}>
           Toggle me
         </button>
-        <button onClick={() => onUpdateMessage(this.state.inputValue)}>
+        <button onClick={() => this.props.updateMessage(inputValue)}>
           Update the message
         </button>
         {messageVisibility &&
-          // message content toggled N times
           <p>{this.props.customMessage} {toggled}</p>}
       </ToggleContainer>
     );
@@ -44,8 +42,8 @@ Toggle.propTypes = {
   messageVisibility: bool.isRequired,
   toggled: number.isRequired,
   customMessage: string.isRequired,
-  onToggleMessage: func.isRequired,
-  onUpdateMessage: func.isRequired,
+  toggleMessage: func.isRequired,
+  updateMessage: func.isRequired,
 };
 
 const ToggleContainer = styled.div`
@@ -54,11 +52,11 @@ const ToggleContainer = styled.div`
   }
 `;
 
-export default connect(({ message }) => ({
-  messageVisibility: message.messageVisibility,
-  toggled: message.toggled,
-  customMessage: message.customMessage,
+export default connect(({ toggle }) => ({
+  messageVisibility: toggle.messageVisibility,
+  toggled: toggle.toggled,
+  customMessage: toggle.customMessage,
 }), dispatch => bindActionCreators({
-  onToggleMessage: toggleMessage,
-  onUpdateMessage: updateMessage,
+  toggleMessage,
+  updateMessage,
 }, dispatch))(Toggle);

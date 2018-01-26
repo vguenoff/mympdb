@@ -1,38 +1,41 @@
 import React, { PureComponent } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { arrayOf, object, bool, string, func } from 'prop-types';
 import styled from 'styled-components';
+
+import { getMovies } from './actions';
 
 import Movie from './Movie';
 
 class MovieList extends PureComponent {
-  state = {
-    movies: [],
-  }
+  componentDidMount() {
+    const { movieListLoaded, movieListLoadedAt } = this.props;
+    const oneHour = 60 * 60 * 1000;
 
-  async componentDidMount() {
-    try {
-      // hitting an API and grab some information
-      const res = await fetch('https://api.themoviedb.org/3/discover/movie?api_key=65fdea35c25da918fb24ceb076bfaae9&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1');
-      const movies = await res.json();
-
-      this.setState({
-        movies: movies.results,
-      });
-    } catch (e) {
-      console.log(e);
+    if (!movieListLoaded || ((new Date()) - new Date(movieListLoadedAt)) > oneHour) {
+      this.props.getMovies();
     }
   }
 
   render() {
-    const { movies } = this.state;
+    const { movieList } = this.props;
 
     return (
       <MovieGrid>
-        {movies.map(movie =>
+        {movieList.map(movie =>
           <Movie key={movie.id} movie={movie} />)}
       </MovieGrid>
     );
   }
 }
+
+MovieList.propTypes = {
+  movieList: arrayOf(object).isRequired,
+  movieListLoaded: bool.isRequired,
+  movieListLoadedAt: string.isRequired,
+  getMovies: func.isRequired,
+};
 
 const MovieGrid = styled.div`
   display: grid;
@@ -41,4 +44,10 @@ const MovieGrid = styled.div`
   grid-row-gap: 1rem;
 `;
 
-export default MovieList;
+export default connect(({ movies }) => ({
+  movieList: movies.movieList,
+  movieListLoaded: movies.movieListLoaded,
+  movieListLoadedAt: movies.movieListLoadedAt,
+}), dispatch => bindActionCreators({
+  getMovies,
+}, dispatch))(MovieList);

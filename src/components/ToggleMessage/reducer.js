@@ -1,6 +1,6 @@
 import { actions } from './actions';
 
-const message = (
+const toggle = (
   state = {
     messageVisibility: true,
     toggled: 0,
@@ -31,4 +31,4 @@ const message = (
   }
 };
 
-export default message;
+export default toggle;
