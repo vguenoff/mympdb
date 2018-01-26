@@ -4,7 +4,7 @@ import { bool, number, string, func } from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { toggleMessage, updateMessage } from '../redux/actions';
+import { toggleMessage, updateMessage } from './actions';
 
 class Toggle extends Component {
   state = {

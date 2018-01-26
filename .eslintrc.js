@@ -28,7 +28,6 @@ module.exports = {
     "jsx-a11y/anchor-is-valid": 0,
     "no-console": 0,
     "react/no-typos": 0,
-    "react/prefer-stateless-function": 1,
-    "linebreak-style": ["error", "windows"]
+    "react/prefer-stateless-function": 1
   }
 };

@@ -7,11 +7,12 @@ import {
   Link,
 } from 'react-router-dom';
 
-import store from '../redux/store';
+import store from './store';
 
-import MovieList from './MovieList';
-import MovieDetail from './MovieDetail';
-import Toggle from './Toggle';
+import MovieList from './Movies/MovieList';
+import MovieDetail from './Movies/MovieDetail';
+
+import Toggle from './ToggleMessage/Toggle';
 
 import logo from '../assets/logo.svg';
 import './App.css';
